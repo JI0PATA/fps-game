@@ -1,5 +1,6 @@
 import * as THREE from "three";
-import {RigidBody} from "@react-three/rapier";
+import * as RAPIER from "@dimforge/rapier3d-compat"
+import {RigidBody, useRapier} from "@react-three/rapier";
 import {useRef} from "react";
 import {usePersonControls} from "./hooks.js";
 import {useFrame} from "@react-three/fiber";
@@ -13,9 +14,12 @@ export const Player = () => {
     const playerRef = useRef();
     const { forward, backward, left, right, jump } = usePersonControls();
 
+    const rapier = useRapier();
+
     useFrame((state) => {
         if (!playerRef.current) return;
 
+        // moving player
         const velocity = playerRef.current.linvel();
 
         frontVector.set(0, 0, backward - forward);
@@ -24,11 +28,22 @@ export const Player = () => {
 
         playerRef.current.wakeUp();
         playerRef.current.setLinvel({ x: direction.x, y: velocity.y, z: direction.z });
+
+        // jumping
+        const world = rapier.world;
+        const ray = world.castRay(new RAPIER.Ray(playerRef.current.translation(), { x: 0, y: -1, z: 0 }));
+        const grounded = ray && ray.collider && Math.abs(ray.toi) <= 0.75;
+
+        if (jump && grounded) doJump();
     });
+
+    const doJump = () => {
+        playerRef.current.setLinvel({x: 0, y: 8, z: 0});
+    }
 
     return (
         <>
-            <RigidBody position={[0, 1, -2]} ref={playerRef}>
+            <RigidBody position={[0, 1, -2]} mass={1} ref={playerRef} lockRotations>
                 <mesh>
                     <capsuleGeometry args={[0.5, 0.5]}/>
                 </mesh>
