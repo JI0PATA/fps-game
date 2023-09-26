@@ -1,6 +1,7 @@
 import {PointerLockControls, Sky} from "@react-three/drei";
 import {Ground} from "./Ground.jsx";
 import {Physics, RigidBody} from "@react-three/rapier";
+import {Player} from "./Player.jsx";
 
 export const App = () => {
     return (
@@ -10,6 +11,7 @@ export const App = () => {
             <ambientLight intensity={1.5} />
             <Physics gravity={[0, -20, 0]}>
                 <Ground />
+                <Player />
                 <RigidBody>
                     <mesh position={[0, 3, -5]}>
                         <boxGeometry />
