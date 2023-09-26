@@ -1,7 +1,9 @@
+import {Sky} from "@react-three/drei";
+
 export const App = () => {
   return (
     <>
-      Fps game
+      <Sky sunPosition={[100, 20, 100]} />
     </>
   )
 }
