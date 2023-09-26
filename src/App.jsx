@@ -3,6 +3,7 @@ import {Ground} from "./Ground.jsx";
 import {Physics} from "@react-three/rapier";
 import {Player} from "./Player.jsx";
 import {Cubes} from "./Cube.jsx";
+import {WeaponModel} from "./WeaponModel.jsx";
 
 export const App = () => {
     return (
@@ -15,6 +16,10 @@ export const App = () => {
                 <Player />
                 <Cubes />
             </Physics>
+
+            <group position={[0, 3, 0]}>
+                <WeaponModel />
+            </group>
         </>
     )
 }
