@@ -32,7 +32,7 @@ export const Player = () => {
         // jumping
         const world = rapier.world;
         const ray = world.castRay(new RAPIER.Ray(playerRef.current.translation(), { x: 0, y: -1, z: 0 }));
-        const grounded = ray && ray.collider && Math.abs(ray.toi) <= 1;
+        const grounded = ray && ray.collider && Math.abs(ray.toi) <= 1.5;
 
         if (jump && grounded) doJump();
 
@@ -50,7 +50,7 @@ export const Player = () => {
             <RigidBody colliders={false} mass={1} ref={playerRef} lockRotations>
                 <mesh>
                     <capsuleGeometry args={[0.5, 0.5]}/>
-                    <CapsuleCollider args={[0.5, 0.5]} />
+                    <CapsuleCollider args={[0.75, 0.5]} />
                 </mesh>
             </RigidBody>
         </>
