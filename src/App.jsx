@@ -28,10 +28,6 @@ export const App = () => {
                 <Player />
                 <Cubes />
             </Physics>
-
-            <group position={[3, 1, -2]}>
-                <WeaponModel />
-            </group>
         </>
     )
 }
