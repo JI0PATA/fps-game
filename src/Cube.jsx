@@ -8,7 +8,7 @@ export const Cubes = () => {
 const Cube = (props) => {
     return (
         <RigidBody {...props}>
-            <mesh>
+            <mesh castShadow receiveShadow>
                 <meshStandardMaterial color="white" />
                 <boxGeometry />
             </mesh>

@@ -11,13 +11,17 @@ export const App = () => {
             <PointerLockControls />
             <Sky sunPosition={[100, 20, 100]}/>
             <ambientLight intensity={1.5} />
+            <directionalLight
+                castShadow
+                intensity={.8}
+                position={[50, 50, 0]} />
             <Physics gravity={[0, -20, 0]}>
                 <Ground />
                 <Player />
                 <Cubes />
             </Physics>
 
-            <group position={[0, 3, 0]}>
+            <group position={[3, 1, -2]}>
                 <WeaponModel />
             </group>
         </>
