@@ -5,6 +5,8 @@ import {Player} from "./Player.jsx";
 import {Cubes} from "./Cube.jsx";
 import {WeaponModel} from "./WeaponModel.jsx";
 
+const shadowOffset = 50;
+
 export const App = () => {
     return (
         <>
@@ -13,8 +15,14 @@ export const App = () => {
             <ambientLight intensity={1.5} />
             <directionalLight
                 castShadow
-                intensity={.8}
-                position={[50, 50, 0]} />
+                intensity={1.5}
+                shadow-mapSize={4096}
+                shadow-camera-top={shadowOffset}
+                shadow-camera-bottom={-shadowOffset}
+                shadow-camera-left={shadowOffset}
+                shadow-camera-right={-shadowOffset}
+                position={[100, 100, 0]}
+            />
             <Physics gravity={[0, -20, 0]}>
                 <Ground />
                 <Player />
