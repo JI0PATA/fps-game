@@ -14,13 +14,15 @@ export const Weapon = (props) => {
     const [isShooting, setIsShooting] = useState(false);
     const weaponRef = useRef();
 
-    document.addEventListener('mousedown', () => {
-        setIsShooting(true);
-    });
+    useEffect(() => {
+        document.addEventListener('mousedown', () => {
+            setIsShooting(true);
+        });
 
-    document.addEventListener('mouseup', () => {
-        setIsShooting(false);
-    });
+        document.addEventListener('mouseup', () => {
+            setIsShooting(false);
+        });
+    }, []);
 
     const generateRecoilOffset = () => {
         return new THREE.Vector3(
