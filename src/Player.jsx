@@ -62,8 +62,6 @@ export const Player = () => {
             setIsSwayingAnimationFinished(false);
             swayingAnimation.start();
         }
-
-        TWEEN.update();
     });
 
     const doJump = () => {

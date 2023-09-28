@@ -75,8 +75,6 @@ export const Weapon = (props) => {
     }, [isShooting]);
 
     useFrame(() => {
-        TWEEN.update();
-
         if (isShooting) {
             startShooting();
         }
