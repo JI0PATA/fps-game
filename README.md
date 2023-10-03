@@ -1,8 +1,13 @@
-# React + Vite
+# First-Person Shooter Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-Currently, two official plugins are available:
+This repository is developing First-Person Shooter as a tutorial based on the React + Three.js stack.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Any contribution to the development of this repository is welcome.
+
+You can follow a series of articles on the development of this game on several portals:
+
+- [Habr](https://habr.com/ru/articles/764692/)
+- [Dev.to](https://dev.to/varlab/react-threejs-creating-your-own-3d-shooter-part-1-3ee2)
+- Hackernoon
