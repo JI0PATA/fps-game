@@ -3,7 +3,10 @@ import * as TWEEN from "@tweenjs/tween.js";
 import {WeaponModel} from "./WeaponModel.jsx";
 import {useEffect, useRef, useState} from "react";
 import {useFrame} from "@react-three/fiber";
+import {usePointerLockControlsStore} from "./App.jsx";
 
+const SHOOT_BUTTON = parseInt(import.meta.env.VITE_SHOOT_BUTTON);
+const AIM_BUTTON = parseInt(import.meta.env.VITE_AIM_BUTTON);
 const recoilAmount = 0.03;
 const recoilDuration = 100;
 const easing = TWEEN.Easing.Quadratic.Out;
@@ -15,14 +18,28 @@ export const Weapon = (props) => {
     const weaponRef = useRef();
 
     useEffect(() => {
-        document.addEventListener('mousedown', () => {
-            setIsShooting(true);
+        document.addEventListener('mousedown', (ev) => {
+            ev.preventDefault();
+            mouseButtonHandler(ev.button, true);
         });
 
-        document.addEventListener('mouseup', () => {
-            setIsShooting(false);
+        document.addEventListener('mouseup', (ev) => {
+            ev.preventDefault();
+            mouseButtonHandler(ev.button, false);
         });
     }, []);
+
+    const mouseButtonHandler = (button, state) => {
+        if (!usePointerLockControlsStore.getState().isLock) return;
+
+        switch (button) {
+            case SHOOT_BUTTON:
+                setIsShooting(state);
+                break;
+            case AIM_BUTTON:
+                break;
+        }
+    }
 
     const generateRecoilOffset = () => {
         return new THREE.Vector3(
