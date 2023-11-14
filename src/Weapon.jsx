@@ -4,6 +4,7 @@ import {WeaponModel} from "./WeaponModel.jsx";
 import {useEffect, useRef, useState} from "react";
 import {useFrame} from "@react-three/fiber";
 import {usePointerLockControlsStore} from "./App.jsx";
+import {create} from "zustand";
 
 const SHOOT_BUTTON = parseInt(import.meta.env.VITE_SHOOT_BUTTON);
 const AIM_BUTTON = parseInt(import.meta.env.VITE_AIM_BUTTON);
@@ -11,10 +12,16 @@ const recoilAmount = 0.03;
 const recoilDuration = 100;
 const easing = TWEEN.Easing.Quadratic.Out;
 
+export const useAimingStore = create((set) => ({
+    isAiming: null,
+    setIsAiming: (value) => set(() => ({ isAiming: value }))
+}));
+
 export const Weapon = (props) => {
     const [recoilAnimation, setRecoilAnimation] = useState(null);
     const [recoilBackAnimation, setRecoilBackAnimation] = useState(null);
     const [isShooting, setIsShooting] = useState(false);
+    const setIsAiming = useAimingStore((state) => state.setIsAiming);
     const weaponRef = useRef();
 
     useEffect(() => {
@@ -37,6 +44,7 @@ export const Weapon = (props) => {
                 setIsShooting(state);
                 break;
             case AIM_BUTTON:
+                setIsAiming(state);
                 break;
         }
     }
