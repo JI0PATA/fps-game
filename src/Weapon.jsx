@@ -5,6 +5,7 @@ import {useEffect, useRef, useState} from "react";
 import {useFrame, useLoader} from "@react-three/fiber";
 import {usePointerLockControlsStore} from "./App.jsx";
 import {create} from "zustand";
+import SingleShootAK47 from "./assets/sounds/single-shoot-ak47.wav";
 import FlashShoot from "./assets/images/flash_shoot.png";
 
 const SHOOT_BUTTON = parseInt(import.meta.env.VITE_SHOOT_BUTTON);
@@ -24,6 +25,8 @@ export const Weapon = (props) => {
     const [isShooting, setIsShooting] = useState(false);
     const setIsAiming = useAimingStore((state) => state.setIsAiming);
     const weaponRef = useRef();
+
+    const audio = new Audio(SingleShootAK47);
 
     const texture = useLoader(THREE.TextureLoader, FlashShoot);
 
@@ -91,6 +94,8 @@ export const Weapon = (props) => {
 
     const startShooting = () => {
         if (!recoilAnimation) return;
+
+        audio.play();
 
         recoilAnimation.start();
         flashAnimation.start();
