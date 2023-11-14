@@ -70,7 +70,7 @@ export const Player = () => {
         playerRef.current.setLinvel({x: 0, y: 8, z: 0});
     }
 
-    const setAnimationParams = () => {
+    const setSwayingAnimationParams = () => {
         if (!swayingAnimation) return;
 
         swayingAnimation.stop();
@@ -90,7 +90,6 @@ export const Player = () => {
         const initialPosition = new THREE.Vector3(0, 0, 0);
         const newPosition = swayingNewPosition;
         const animationDuration = swayingDuration;
-        const easing = TWEEN.Easing.Quadratic.Out;
 
         const twSwayingAnimation = new TWEEN.Tween(currentPosition)
             .to(newPosition, animationDuration)
@@ -116,7 +115,7 @@ export const Player = () => {
     }
 
     useEffect(() => {
-        setAnimationParams();
+        setSwayingAnimationParams();
     }, [isMoving]);
 
     useEffect(() => {
@@ -156,7 +155,7 @@ export const Player = () => {
         } else if (isAiming === false) {
             aimingBackAnimation?.start()
                 .onComplete(() => {
-                    setAnimationParams();
+                    setSwayingAnimationParams();
                 });
         }
     }, [isAiming, aimingAnimation, aimingBackAnimation]);
