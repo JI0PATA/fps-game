@@ -2,9 +2,10 @@ import * as THREE from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 import {WeaponModel} from "./WeaponModel.jsx";
 import {useEffect, useRef, useState} from "react";
-import {useFrame} from "@react-three/fiber";
+import {useFrame, useLoader} from "@react-three/fiber";
 import {usePointerLockControlsStore} from "./App.jsx";
 import {create} from "zustand";
+import FlashShoot from "./assets/images/flash_shoot.png";
 
 const SHOOT_BUTTON = parseInt(import.meta.env.VITE_SHOOT_BUTTON);
 const AIM_BUTTON = parseInt(import.meta.env.VITE_AIM_BUTTON);
@@ -23,6 +24,10 @@ export const Weapon = (props) => {
     const [isShooting, setIsShooting] = useState(false);
     const setIsAiming = useAimingStore((state) => state.setIsAiming);
     const weaponRef = useRef();
+
+    const texture = useLoader(THREE.TextureLoader, FlashShoot);
+
+    const [flashAnimation, setFlashAnimation] = useState(null);
 
     useEffect(() => {
         document.addEventListener('mousedown', (ev) => {
@@ -85,7 +90,10 @@ export const Weapon = (props) => {
     }
 
     const startShooting = () => {
+        if (!recoilAnimation) return;
+
         recoilAnimation.start();
+        flashAnimation.start();
     }
 
     useEffect(() => {
@@ -104,9 +112,35 @@ export const Weapon = (props) => {
         }
     });
 
+    const [flashOpacity, setFlashOpacity] = useState(0);
+
+    const initFlashAnimation = () => {
+        const currentFlashParams = { opacity: 0 };
+
+        const twFlashAnimation = new TWEEN.Tween(currentFlashParams)
+            .to({ opacity: 1 }, recoilDuration)
+            .easing(easing)
+            .onUpdate(() => {
+                setFlashOpacity(() => currentFlashParams.opacity);
+            })
+            .onComplete(() => {
+                setFlashOpacity(() => 0);
+            });
+
+        setFlashAnimation(twFlashAnimation);
+    }
+
+    useEffect(() => {
+        initFlashAnimation();
+    }, []);
+
     return (
         <group {...props}>
             <group ref={weaponRef}>
+                <mesh position={[0, 0.05, -2]} scale={[1, 1, 0]}>
+                    <planeGeometry attach="geometry" args={[1, 1]} />
+                    <meshBasicMaterial attach="material" map={texture} transparent={true} opacity={flashOpacity} />
+                </mesh>
                 <WeaponModel />
             </group>
         </group>
