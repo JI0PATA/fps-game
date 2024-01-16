@@ -1,12 +1,12 @@
 import * as THREE from "three";
 import * as TWEEN from "@tweenjs/tween.js";
-import {WeaponModel} from "./WeaponModel.jsx";
+import {WeaponModel} from "@/WeaponModel.jsx";
 import {useEffect, useRef, useState} from "react";
 import {useFrame, useLoader} from "@react-three/fiber";
-import {usePointerLockControlsStore} from "./App.jsx";
+import {usePointerLockControlsStore} from "@/App.jsx";
 import {create} from "zustand";
-import SingleShootAK47 from "./assets/sounds/single-shoot-ak47.wav";
-import FlashShoot from "./assets/images/flash_shoot.png";
+import SingleShootAK47 from "@/assets/sounds/single-shoot-ak47.wav";
+import FlashShoot from "@/assets/images/flash_shoot.png";
 
 const SHOOT_BUTTON = parseInt(import.meta.env.VITE_SHOOT_BUTTON);
 const AIM_BUTTON = parseInt(import.meta.env.VITE_AIM_BUTTON);

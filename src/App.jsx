@@ -1,9 +1,9 @@
 import * as TWEEN from "@tweenjs/tween.js";
 import {PointerLockControls, Sky} from "@react-three/drei";
-import {Ground} from "./Ground.jsx";
+import {Ground} from "@/Ground.jsx";
 import {Physics} from "@react-three/rapier";
-import {Player} from "./Player.jsx";
-import {Cubes} from "./Cube.jsx";
+import {Player} from "@/Player.jsx";
+import {Cubes} from "@/Cube.jsx";
 import {useFrame} from "@react-three/fiber";
 import {create} from "zustand";
 

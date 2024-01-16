@@ -20,14 +20,18 @@
     "zustand": "^4.4.1"
   },
   "devDependencies": {
+    "@types/node": "^20.11.4",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
     "@vitejs/plugin-react": "^4.0.3",
     "eslint": "^8.45.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "gltf-pipeline": "^4.1.0",
+    "sass": "^1.69.7",
     "vite": "^4.4.5"
   }
 }
