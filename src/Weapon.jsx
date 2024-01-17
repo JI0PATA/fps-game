@@ -2,11 +2,12 @@ import * as THREE from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 import {WeaponModel} from "@/WeaponModel.jsx";
 import {useEffect, useRef, useState} from "react";
-import {useFrame, useLoader} from "@react-three/fiber";
+import {useLoader} from "@react-three/fiber";
 import {usePointerLockControlsStore} from "@/App.jsx";
-import {create} from "zustand";
 import SingleShootAK47 from "@/assets/sounds/single-shoot-ak47.wav";
 import FlashShoot from "@/assets/images/flash_shoot.png";
+import {useAimingStore} from "@/store/AimingStore.ts";
+import {useRoundsStore} from "@/store/RoundsStore.ts";
 
 const SHOOT_BUTTON = parseInt(import.meta.env.VITE_SHOOT_BUTTON);
 const AIM_BUTTON = parseInt(import.meta.env.VITE_AIM_BUTTON);
@@ -14,17 +15,14 @@ const recoilAmount = 0.03;
 const recoilDuration = 50;
 const easing = TWEEN.Easing.Quadratic.Out;
 
-export const useAimingStore = create((set) => ({
-    isAiming: null,
-    setIsAiming: (value) => set(() => ({ isAiming: value }))
-}));
-
 export const Weapon = (props) => {
     const [recoilAnimation, setRecoilAnimation] = useState(null);
     const [isRecoilAnimationFinished, setIsRecoilAnimationFinished] = useState(true);
     const [isShooting, setIsShooting] = useState(false);
     const setIsAiming = useAimingStore((state) => state.setIsAiming);
     const weaponRef = useRef();
+
+    const dispatchDecreaseRounds = useRoundsStore((state) => state.decreaseRounds);
 
     const audio = new Audio(SingleShootAK47);
 
@@ -96,6 +94,7 @@ export const Weapon = (props) => {
         if (!recoilAnimation) return;
 
         audio.play();
+        dispatchDecreaseRounds();
 
         recoilAnimation.start();
         flashAnimation.start();
@@ -106,16 +105,10 @@ export const Weapon = (props) => {
     }, []);
 
     useEffect(() => {
-        if (isShooting) {
-            startShooting();
-        }
-    }, [isShooting]);
-
-    useFrame(() => {
         if (isShooting && isRecoilAnimationFinished) {
             startShooting();
         }
-    });
+    }, [isShooting, isRecoilAnimationFinished]);
 
     const [flashOpacity, setFlashOpacity] = useState(0);
 

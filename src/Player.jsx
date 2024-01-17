@@ -5,7 +5,8 @@ import {CapsuleCollider, RigidBody, useRapier} from "@react-three/rapier";
 import {useEffect, useRef, useState} from "react";
 import {usePersonControls} from "@/hooks.js";
 import {useFrame} from "@react-three/fiber";
-import {useAimingStore, Weapon} from "@/Weapon.jsx";
+import {Weapon} from "@/Weapon.jsx";
+import {useAimingStore} from "@/store/AimingStore.ts";
 
 const MOVE_SPEED = 5;
 const direction = new THREE.Vector3();

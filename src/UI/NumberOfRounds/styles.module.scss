@@ -1,0 +1,13 @@
+.rounds {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  right: 40px;
+  bottom: 40px;
+  background: rgba(255, 255, 255, .8);
+  font-size: 40px;
+  border-radius: 10px;
+}
