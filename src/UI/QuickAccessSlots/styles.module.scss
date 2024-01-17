@@ -1,0 +1,31 @@
+.slots {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+
+  .slot {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    border: 2px solid darkgray;
+    background: rgba(255, 255, 255, .3);
+    padding: 5px;
+    transform: skew(-20deg, 0);
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .key {
+      position: absolute;
+      z-index: 2;
+      font-weight: bold;
+    }
+  }
+}
