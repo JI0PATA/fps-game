@@ -5,9 +5,11 @@ import {useEffect, useRef, useState} from "react";
 import {useLoader} from "@react-three/fiber";
 import {usePointerLockControlsStore} from "@/App.jsx";
 import SingleShootAK47 from "@/assets/sounds/single-shoot-ak47.wav";
+import ShootWithoutBullet from "@/assets/sounds/shoot-without-bullet.wav";
 import FlashShoot from "@/assets/images/flash_shoot.png";
 import {useAimingStore} from "@/store/AimingStore.ts";
 import {useRoundsStore} from "@/store/RoundsStore.ts";
+import {PositionalAudio} from '@react-three/drei';
 
 const SHOOT_BUTTON = parseInt(import.meta.env.VITE_SHOOT_BUTTON);
 const AIM_BUTTON = parseInt(import.meta.env.VITE_AIM_BUTTON);
@@ -27,7 +29,16 @@ export const Weapon = (props) => {
     const dispatchDecreaseRounds = useRoundsStore((state) => state.decreaseRounds);
     const dispatchReloadRounds = useRoundsStore((state) => state.reloadRounds);
 
-    const audio = new Audio(SingleShootAK47);
+    const positionalAudioRef = useRef();
+    const [audioUrl, setAudioUrl] = useState(SingleShootAK47);
+
+    useEffect(() => {
+        if (countOfRounds > 0) {
+            setAudioUrl(SingleShootAK47);
+        } else {
+            setAudioUrl(ShootWithoutBullet);
+        }
+    }, [countOfRounds]);
 
     const texture = useLoader(THREE.TextureLoader, FlashShoot);
 
@@ -102,13 +113,16 @@ export const Weapon = (props) => {
     }
 
     const startShooting = () => {
-        if (!recoilAnimation || countOfRounds === 0) return;
+        if (!recoilAnimation) return;
 
-        audio.play();
-        dispatchDecreaseRounds();
+        positionalAudioRef.current.stop();
+        positionalAudioRef.current.play();
 
-        recoilAnimation.start();
-        flashAnimation.start();
+        if (countOfRounds > 0) {
+            dispatchDecreaseRounds();
+            recoilAnimation.start();
+            flashAnimation.start();
+        }
     }
 
     useEffect(() => {
@@ -151,6 +165,7 @@ export const Weapon = (props) => {
                     <meshBasicMaterial attach="material" map={texture} transparent={true} opacity={flashOpacity} />
                 </mesh>
                 <WeaponModel />
+                <PositionalAudio url={audioUrl} autoplay={false} loop={false} ref={positionalAudioRef} />
             </group>
         </group>
     );
