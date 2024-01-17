@@ -11,6 +11,7 @@ import {useRoundsStore} from "@/store/RoundsStore.ts";
 
 const SHOOT_BUTTON = parseInt(import.meta.env.VITE_SHOOT_BUTTON);
 const AIM_BUTTON = parseInt(import.meta.env.VITE_AIM_BUTTON);
+const RELOAD_BUTTON_CODE = import.meta.env.VITE_RELOAD_BUTTON_CODE;
 const recoilAmount = 0.03;
 const recoilDuration = 50;
 const easing = TWEEN.Easing.Quadratic.Out;
@@ -22,7 +23,9 @@ export const Weapon = (props) => {
     const setIsAiming = useAimingStore((state) => state.setIsAiming);
     const weaponRef = useRef();
 
+    const countOfRounds = useRoundsStore((state) => state.countRounds);
     const dispatchDecreaseRounds = useRoundsStore((state) => state.decreaseRounds);
+    const dispatchReloadRounds = useRoundsStore((state) => state.reloadRounds);
 
     const audio = new Audio(SingleShootAK47);
 
@@ -39,6 +42,14 @@ export const Weapon = (props) => {
         document.addEventListener('mouseup', (ev) => {
             ev.preventDefault();
             mouseButtonHandler(ev.button, false);
+        });
+
+        document.addEventListener('keypress', (ev) => {
+            ev.preventDefault();
+
+            if (ev.code === RELOAD_BUTTON_CODE) {
+                dispatchReloadRounds();
+            }
         });
     }, []);
 
@@ -91,7 +102,7 @@ export const Weapon = (props) => {
     }
 
     const startShooting = () => {
-        if (!recoilAnimation) return;
+        if (!recoilAnimation || countOfRounds === 0) return;
 
         audio.play();
         dispatchDecreaseRounds();
